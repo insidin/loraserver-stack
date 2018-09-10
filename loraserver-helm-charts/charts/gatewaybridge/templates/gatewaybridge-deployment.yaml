@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: gatewaybridge
+  name: gatewaybridge-deployment
+  namespace: lora
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: gatewaybridge
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/gatewaybridge-configmap.yaml") . | sha256sum }}
+    spec:
+      containers:
+      - image: loraserver/lora-gateway-bridge:2.6.1
+        name: gatewaybridge
+        ports:
+        - containerPort: 1700
+          protocol: UDP
+        resources: {}
+        volumeMounts:
+        - name: gatewaybridge-conf
+          mountPath: /etc/lora-gateway-bridge
+      restartPolicy: Always
+      volumes:
+      - name: gatewaybridge-conf
+        configMap:
+          name: gatewaybridge-configmap
+status: {}

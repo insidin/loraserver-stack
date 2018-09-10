@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mosquitto-configmap
+  namespace: lora
+  labels:
+    app: mosquitto
+data:
+  mosquitto.conf: |-
+    log_dest stdout
+    persistence true
+    persistence_location /mosquitto/data/
+    allow_anonymous false
+    password_file /mosquitto/passwd
+  passwd: |-
+    {{ .Values.user }}:{{ .Values.password }}

@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: loraserver-deployment
+  namespace: lora
+  labels:
+    app: loraserver
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: loraserver
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/loraserver-configmap.yaml") . | sha256sum }}
+    spec:
+      containers:
+      - image: loraserver/loraserver:2.3.0
+        name: loraserver
+        ports:
+        - containerPort: 8000
+        resources: {}
+        volumeMounts:
+        - name: loraserver-conf
+          mountPath: /etc/loraserver
+      restartPolicy: Always
+      volumes:
+      - name: loraserver-conf
+        configMap:
+          name: loraserver-configmap
+status: {}

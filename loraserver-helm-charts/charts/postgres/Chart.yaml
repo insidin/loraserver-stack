@@ -1,0 +1,6 @@
+name: postgres
+version: 1.0.0
+appVersion: 11.0
+description: postgres
+keywords:
+- postgres

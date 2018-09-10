@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: redis
+  name: redis-deployment
+  namespace: lora
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: redis
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/redis-configmap.yaml") . | sha256sum }}
+    spec:
+      containers:
+      - image: redis:5.0.0-alpine3.8
+        name: redit
+        command: 
+        - redis-server
+        - /usr/local/etc/redis/redis.conf
+        ports:
+        - containerPort: 6379
+        resources:
+          limits:
+            cpu: "0.1"
+        volumeMounts:
+        - name: redis-config
+          mountPath: /usr/local/etc/redis
+      restartPolicy: Always
+      volumes:
+      - name: redis-config
+        configMap:
+          name: redis-configmap

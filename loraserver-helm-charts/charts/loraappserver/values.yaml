@@ -1,0 +1,9 @@
+jwt_secret: ""
+
+postgres:
+  user: "loraserver_as"
+  password: "loraserver_as"
+
+mosquitto:
+  user: ""
+  password: ""

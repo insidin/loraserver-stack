@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: loraappserver-configmap
+  namespace: lora
+  labels:
+    app: loraappserver
+data:
+  lora-app-server.toml: |-
+    [postgresql]
+    dsn="postgres://{{ .Values.postgres.user }}:{{ .Values.postgres.password }}@postgres/loraserver_as?sslmode=disable"
+
+    [redis]
+    url="redis://redis:6379"
+
+    [application_server.integration.mqtt]
+    server="tcp://mosquitto:1883"
+    username={{ .Values.mosquitto.user }}
+    password={{ .Values.mosquitto.password }}
+    uplink_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/rx"
+    downlink_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/tx"
+    join_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/join"
+    ack_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/ack"
+    error_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/error"
+    status_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/status"
+    location_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/location"
+
+    [application_server.api]
+    bind="0.0.0.0:8001"
+    public_host="loraappserver:8001"
+
+    [application_server.external_api]
+    bind="0.0.0.0:8080"
+    jwt_secret={{ .Values.jwt_secret }}
+
+    [join_server]
+    bind="0.0.0.0:8003"

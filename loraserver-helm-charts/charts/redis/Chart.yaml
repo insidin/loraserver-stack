@@ -1,0 +1,6 @@
+name: redis
+version: 1.0.0
+appVersion: 5.0.0
+description: Redis
+keywords:
+- redis

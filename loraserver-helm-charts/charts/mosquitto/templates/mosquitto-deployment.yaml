@@ -1,0 +1,55 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mosquitto-deployment
+  namespace: lora
+  labels:
+    app: mosquitto
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mosquitto
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/mosquitto-configmap.yaml") . | sha256sum }}
+    spec:
+      securityContext:
+        runAsUser: 100
+        fsGroup: 101
+      containers:
+      - image: eclipse-mosquitto
+        imagePullPolicy: IfNotPresent
+        name: mosquitto
+        ports:
+        - containerPort: 1883
+          name: "mqtt"
+        - containerPort: 9001
+          name: "websocket"
+        volumeMounts:
+          - name: mosquitto-conf
+            mountPath: /mosquitto/config
+            subPath: mosquitto.conf
+            readOnly: true
+          - name: mosquitto-data
+            mountPath: /mosquitto/data
+          - name: mosquitto-conf
+            mountPath: /mosquitto/passwd
+            subPath: passwd 
+            readOnly: true
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+      volumes:
+      - name: mosquitto-conf
+        configMap:
+          name: mosquitto-configmap
+      - name: mosquitto-data
+      {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: mosquitto-pvc
+      {{- else }}
+        emptyDir: {}
+      {{- end -}}

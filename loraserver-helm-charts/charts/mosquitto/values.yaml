@@ -1,0 +1,13 @@
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 2Gi
+  storageClass: gp2
+
+user: "user"
+password: "pwd"
+  
+resources:
+  requests:
+    cpu: 50m
+    memory: 100Mi
