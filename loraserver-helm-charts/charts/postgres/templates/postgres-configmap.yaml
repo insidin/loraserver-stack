@@ -9,6 +9,7 @@ data:
   POSTGRES_DB: postgres
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
+  PGDATA: /var/lib/postgresql/data/db-files/
 ---
 apiVersion: v1
 kind: ConfigMap

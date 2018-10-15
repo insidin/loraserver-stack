@@ -15,8 +15,8 @@ data:
 
     [application_server.integration.mqtt]
     server="tcp://mosquitto:1883"
-    username={{ .Values.mosquitto.user }}
-    password={{ .Values.mosquitto.password }}
+    username="{{ .Values.mosquitto.user }}"
+    password="{{ .Values.mosquitto.password }}"
     uplink_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/rx"
     downlink_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/tx"
     join_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/join"
@@ -31,7 +31,7 @@ data:
 
     [application_server.external_api]
     bind="0.0.0.0:8080"
-    jwt_secret={{ .Values.jwt_secret }}
+    jwt_secret="{{ .Values.jwt_secret }}"
 
     [join_server]
     bind="0.0.0.0:8003"

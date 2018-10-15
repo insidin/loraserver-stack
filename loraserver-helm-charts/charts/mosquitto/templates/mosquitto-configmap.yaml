@@ -11,6 +11,6 @@ data:
     persistence true
     persistence_location /mosquitto/data/
     allow_anonymous false
-    password_file /mosquitto/passwd
-  passwd: |-
+    password_file /mosquitto/passwd.txt
+  passwd.txt: |-
     {{ .Values.user }}:{{ .Values.password }}

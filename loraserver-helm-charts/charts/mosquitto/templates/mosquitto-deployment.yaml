@@ -37,8 +37,8 @@ spec:
           - name: mosquitto-data
             mountPath: /mosquitto/data
           - name: mosquitto-conf
-            mountPath: /mosquitto/passwd
-            subPath: passwd 
+            mountPath: /mosquitto/passwd.txt
+            subPath: passwd.txt
             readOnly: true
         resources:
 {{ toYaml .Values.resources | indent 10 }}
