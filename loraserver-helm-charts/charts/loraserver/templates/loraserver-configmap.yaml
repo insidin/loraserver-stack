@@ -79,8 +79,8 @@ data:
 
     [network_server.gateway.backend.mqtt]
     server="tcp://mosquitto:1883"
-    username={{ .Values.mosquitto.user }}
-    password={{ .Values.mosquitto.password }}
+    username="{{ .Values.mosquitto.user }}""
+    password="{{ .Values.mosquitto.password }}""
 
     [join_server.default]
     server="http://loraappserver:8003"
