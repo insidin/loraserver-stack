@@ -17,13 +17,6 @@ data:
     server="tcp://mosquitto:1883"
     username="{{ .Values.mosquitto.user }}"
     password="{{ .Values.mosquitto.password }}"
-    uplink_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/rx"
-    downlink_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/tx"
-    join_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/join"
-    ack_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/ack"
-    error_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/error"
-    status_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/status"
-    location_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/location"
 
     [application_server.api]
     bind="0.0.0.0:8001"

@@ -9,5 +9,5 @@ data:
   lora-gateway-bridge.toml: |-
     [backend.mqtt]
     server="tcp://mosquitto:1883"
-    username={{ .Values.mosquitto.user }}
-    password={{ .Values.mosquitto.password }}
+    username="{{ .Values.mosquitto.user }}"
+    password="{{ .Values.mosquitto.password }}"
